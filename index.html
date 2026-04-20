@@ -225,7 +225,42 @@
       }
     }
 
-    // Placeholder animation
+    // Function to fit text to width
+    function fitTextToWidth() {
+      if (!textDisplay.textContent) {
+        textDisplay.style.fontSize = '2rem';
+        return;
+      }
+
+      const displayArea = document.querySelector('.display-area');
+      const padding = 40;
+      const maxWidth = displayArea.clientWidth - padding;
+      const maxHeight = displayArea.clientHeight - padding;
+
+      let fontSize = 200;
+      textDisplay.style.fontSize = fontSize + 'px';
+
+      while (textDisplay.scrollWidth > maxWidth && fontSize > 10) {
+        fontSize -= 2;
+        textDisplay.style.fontSize = fontSize + 'px';
+      }
+
+      while (textDisplay.scrollHeight > maxHeight && fontSize > 10) {
+        fontSize -= 2;
+        textDisplay.style.fontSize = fontSize + 'px';
+      }
+    }
+
+    // Update text and fit width
+    textInput.addEventListener('input', () => {
+      textDisplay.textContent = textInput.value || '';
+      fitTextToWidth();
+    });
+
+    // Refit on window resize
+    window.addEventListener('resize', fitTextToWidth);
+
+    // Initial state
     textDisplay.textContent = '';
   </script>
 </body>
